@@ -1,12 +1,12 @@
 pipeline {
-   agent {label "maven"}
+   agent any
   stages {
      
             stage('Get Project from Github') {
             steps {
                    echo 'Getting Project from Git' 
-                git branch: 'otail', url: 'https://github.com/youssef-el-mahdi-bouchouicha/tpAchat.git',
-                credentialsId:'git_access'
+                git branch: 'main', url: 'https://github.com/firas192/Spring_boot_Devops.git',
+                credentialsId:'azaz'
                 
             }
 }
