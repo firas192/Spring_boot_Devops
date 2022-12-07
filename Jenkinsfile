@@ -26,8 +26,8 @@ pipeline {
 
        sh "mvn clean verify  sonar:sonar \
      	-Dsonar.projectKey=tpAchat \
- 	-Dsonar.host.url=http:192.168.1.21:9000 \
-  	-Dsonar.login=sqp_c474b0427356bd368f0650ed3ee25c936996299f \
+ 	-Dsonar.host.url=http:192.168.1.106:9000 \
+  	-Dsonar.login=76491b39395ca4141d18128a3954e2288a650137 \
         -Dsonar.java.binaries=src/main "
   
   
