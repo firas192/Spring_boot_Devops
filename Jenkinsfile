@@ -43,8 +43,7 @@ pipeline {
      
      stage("nexus") {
         steps{
-           echo "deploy project on nexus"
-           sh 'mvn deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://192.168.0.13:8081/repository/maven-releases/  -Dfile=target/achat-1.0.jar'
+            sh """mvn deploy """
         }
      }
      
@@ -52,20 +51,20 @@ pipeline {
     stage('Docker build')
         {
             steps {
-                 sh 'docker build --build-arg IP=0.0.0.0 -t hajersaidi/achatback  .'
+                 sh 'docker build --build-arg IP=0.0.0.0 -t firasgb/achatback  .'
             }
         }
         stage('Docker login')
         {
             steps {
-                sh 'echo $dockerhub_PSW | docker login -u hajersaidi -p dckr_pat_1XTH7dQVwz_yuf0KrwuymdQvRJU'
+                sh 'echo $dockerhub_PSW | docker login -u firasgb -p dckr_pat_5ut3Pubs5oFhDc27onRKUl_9ZuQ'
             }    
        
         }
       stage('Push') {
 
 			steps {
-				sh 'docker push hajersaidi/achatback'
+				sh 'docker push firasgb/achatback'
 			}
 		}
         
@@ -76,9 +75,9 @@ pipeline {
               }
        stage('Email notification'){
            steps {
-            mail bcc: '', body: '''Hello Hajer, It's Jenkins,
+            mail bcc: '', body: '''Hello Firas, It's Jenkins,
             Your Devops Pipeline is succeeded.
-            Best Regards''', cc: '', from: '', replyTo: '', subject: 'Devops Pipeline', to: 'hajer.saidi@esprit.tn'
+            Best Regards''', cc: '', from: '', replyTo: '', subject: 'Devops Pipeline', to: 'firas.ghobber@esprit.tn'
             }
        }
   }
