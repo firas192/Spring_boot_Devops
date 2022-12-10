@@ -49,53 +49,37 @@ pipeline {
      }
      
      /*-----------------*/
-    stage("Build docker image") {
-        steps{
-		
-		
-           sh ' docker build -t otail/tp_achat_project-1.0 .'
+    stage('Docker build')
+        {
+            steps {
+                 sh 'docker build --build-arg IP=0.0.0.0 -t hajersaidi/achatback  .'
+            }
         }
-        } 
-     
-          stage("Deploy image to docker hub") {
-        steps{
-         	sh 'docker login -uotail -p otailotail8'
-            	sh  'docker push otail/tp_achat_project-1.0:latest'
-              }
-		  
+        stage('Docker login')
+        {
+            steps {
+                sh 'echo $dockerhub_PSW | docker login -u hajersaidi -p dckr_pat_1XTH7dQVwz_yuf0KrwuymdQvRJU'
+            }    
+       
         }
-	  
-         stage('DOCKER COMPOSE') {
-                 steps {
-		     
-                      sh 'docker-compose up -d'
-                   }
-              }
-	    stage("Deploy  to nexus") {
-       steps{
-		sh ' docker build -t 192.168.1.21:8082/otail/tp_achat_project-1.0 .'
-         	sh 'docker login -u admin -p nexus 192.168.1.21:8082'
-            	sh  'docker push 192.168.1.21:8082/otail/tp_achat_project-1.0:latest'
-              }
-        }
-	 /* stage('Promethious') {
-                 steps {
-		     
-                      sh 'docker run -d --name prometheus -p 9091:9091 prom/prometheus'
-                   }
-                 this doesn't work
-              }*/
-              
-   
+      stage('Push') {
 
-  }
-  post {
-    always {
-	     
-      cleanWs()  
-	    
-	  
-    }
-
+			steps {
+				sh 'docker push hajersaidi/achatback'
+			}
+		}
+        
+       stage('Run app With DockerCompose') {
+              steps {
+                  sh "docker-compose -f docker-compose.yml up -d  "
+              }
+              }
+       stage('Email notification'){
+           steps {
+            mail bcc: '', body: '''Hello Hajer, It's Jenkins,
+            Your Devops Pipeline is succeeded.
+            Best Regards''', cc: '', from: '', replyTo: '', subject: 'Devops Pipeline', to: 'hajer.saidi@esprit.tn'
+            }
+       }
   }
 }
