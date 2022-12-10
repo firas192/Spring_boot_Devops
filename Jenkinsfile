@@ -34,7 +34,7 @@ pipeline {
        sh "mvn clean verify  sonar:sonar \
      	-Dsonar.projectKey=achat \
  	-Dsonar.host.url=http:192.168.0.13:9000 \
-  	-Dsonar.login=76491b39395ca4141d18128a3954e2288a650137 \
+  	-Dsonar.login=1da96b778d0fd9c1a2476fa22159b79780b283d7 \
         -Dsonar.java.binaries=src/main "
   
   
