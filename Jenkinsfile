@@ -20,6 +20,13 @@ pipeline {
                 */
             }
         }
+	  
+   	stage("Junit/Mockito"){
+            steps {
+                sh """mvn test """
+                
+            }
+        }
     
       stage("Sonar") {
         steps {
@@ -37,7 +44,7 @@ pipeline {
      stage("nexus") {
         steps{
            echo "deploy project on nexus"
-           sh 'mvn deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=tpAchatProject -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://192.168.1.21:8081/repository/maven-releases/  -Dfile=target/tpAchatProject-1.0.jar'
+           sh 'mvn deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://192.168.0.13:8081/repository/maven-releases/  -Dfile=target/achat-1.0.jar'
         }
      }
      
